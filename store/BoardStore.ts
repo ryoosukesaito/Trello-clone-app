@@ -103,6 +103,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       {
         title: todo,
         status: columnId,
+        username: username,
         // include image if it exists
         ...(file && { image: JSON.stringify(file) }),
       }

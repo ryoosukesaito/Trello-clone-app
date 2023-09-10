@@ -32,6 +32,7 @@ function Modal() {
     e.preventDefault();
     if (!newTaskInput) return;
     const username = user.name;
+    console.log(username);
 
     addTask(newTaskInput, newTaskType, username, image);
     setImage(null);

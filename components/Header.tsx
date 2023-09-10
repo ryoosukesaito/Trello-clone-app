@@ -87,12 +87,32 @@ function Header() {
             </button>
           </form>
 
-          <Avatar name={user ? `${user.name}` : "unknown"} round size="50" />
-        </div>
-      </div>
+          {/* profile dropdown */}
+          <div>
+            <button
+              type="button"
+              id="user-menu-button"
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              <Avatar
+                name={user ? `${user.name}` : "unknown"}
+                round
+                size="50"
+              />
+            </button>
 
-      <div>
-        <button onClick={handleLogout}>Logout</button>
+            <div
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="user-menu-button"
+            >
+              <button role="menuitem" tabIndex={-1} onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="flex items-center justify-center px-5 py-2 md:py-5">

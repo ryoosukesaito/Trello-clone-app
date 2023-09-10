@@ -9,6 +9,7 @@ import {
   DraggableProvidedDragHandleProps,
   DraggableProvidedDraggableProps,
 } from "react-beautiful-dnd";
+import Avatar from "react-avatar";
 
 type Props = {
   todo: Todo;
@@ -52,6 +53,7 @@ function TodoCard({
     >
       <div className="flex justify-between items-center p-5">
         <p>{todo.title}</p>
+        <Avatar name={todo.username} round size="20" />
         <button
           onClick={() => deleteTask(index, todo, id)}
           className="text-red-500 hover:text-red-600"
