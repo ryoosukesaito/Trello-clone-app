@@ -6,6 +6,8 @@ import Avatar from "react-avatar";
 import { useBoardStore } from "@/store/BoardStore";
 import { useEffect, useState } from "react";
 import fetchSuggestion from "@/lib/fetchSuggestion";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/AuthStore";
 
 function Header() {
   const [board, searchString, setSearchString] = useBoardStore((state) => [
@@ -14,12 +16,23 @@ function Header() {
     state.setSearchString,
   ]);
 
+  const [user, getUser] = useUserStore((state) => [state.user, state.getUser]);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [suggestion, setSuggestion] = useState<string>("");
+  const router = useRouter();
+
+  const handleLogout = () => {
+    router.push("/");
+  };
+
+  const getUserFunc = async () => {
+    getUser();
+  };
 
   useEffect(() => {
     if (board.columns.size === 0) return;
-    setLoading(true);
+    setLoading(false);
 
     const fetchSuggestionFunc = async () => {
       const suggestion = await fetchSuggestion(board);
@@ -27,6 +40,7 @@ function Header() {
       setLoading(false);
     };
 
+    getUserFunc();
     fetchSuggestionFunc();
   }, [board]);
 
@@ -73,8 +87,12 @@ function Header() {
             </button>
           </form>
 
-          <Avatar name="Ryosuke saito" round size="50" />
+          <Avatar name={user ? `${user.name}` : "unknown"} round size="50" />
         </div>
+      </div>
+
+      <div>
+        <button onClick={handleLogout}>Logout</button>
       </div>
 
       <div className="flex items-center justify-center px-5 py-2 md:py-5">

@@ -14,10 +14,18 @@ interface Todo {
   $createdAt: string;
   title: string;
   status: TypeColumn;
+  username: string;
   image?: Image;
 }
 
 interface Image {
   bucketId: string;
   fileId: string;
+}
+
+interface User {
+  $id: string;
+  name: string;
+  email: string;
+  password?: string;
 }
