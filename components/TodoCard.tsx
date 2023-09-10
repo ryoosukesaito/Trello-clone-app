@@ -52,8 +52,10 @@ function TodoCard({
       ref={innerRef}
     >
       <div className="flex justify-between items-center p-5">
-        <p>{todo.title}</p>
-        <Avatar name={todo.username} round size="20" />
+        <div className="flex gap-3 items-center">
+          <Avatar name={todo.username} round size="20" />
+          <p>{todo.title}</p>
+        </div>
         <button
           onClick={() => deleteTask(index, todo, id)}
           className="text-red-500 hover:text-red-600"
