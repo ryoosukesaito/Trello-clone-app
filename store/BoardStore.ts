@@ -15,7 +15,12 @@ interface BoardState {
   searchString: string;
   setSearchString: (searchString: string) => void;
 
-  addTask: (todo: string, columnId: TypeColumn, image?: File | null) => void;
+  addTask: (
+    todo: string,
+    columnId: TypeColumn,
+    username: string,
+    image?: File | null
+  ) => void;
   deleteTask: (taskIndex: number, toolId: Todo, id: TypeColumn) => void;
 
   setNewTaskInput: (input: string) => void;
@@ -73,7 +78,12 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     );
   },
 
-  addTask: async (todo: string, columnId: TypeColumn, image?: File | null) => {
+  addTask: async (
+    todo: string,
+    columnId: TypeColumn,
+    username: string,
+    image?: File | null
+  ) => {
     let file: Image | undefined;
 
     if (image) {
@@ -93,6 +103,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       {
         title: todo,
         status: columnId,
+        username: username,
         // include image if it exists
         ...(file && { image: JSON.stringify(file) }),
       }
@@ -108,6 +119,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         $createdAt: new Date().toISOString(),
         title: todo,
         status: columnId,
+        username: username,
         // include image if it exists
         ...(file && { image: file }),
       };

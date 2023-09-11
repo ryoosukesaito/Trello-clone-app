@@ -6,6 +6,8 @@ import Avatar from "react-avatar";
 import { useBoardStore } from "@/store/BoardStore";
 import { useEffect, useState } from "react";
 import fetchSuggestion from "@/lib/fetchSuggestion";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/AuthStore";
 
 function Header() {
   const [board, searchString, setSearchString] = useBoardStore((state) => [
@@ -14,12 +16,28 @@ function Header() {
     state.setSearchString,
   ]);
 
+  const [user, getUser] = useUserStore((state) => [state.user, state.getUser]);
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [isOpenMenu, setIsOpenMenu] = useState<null | HTMLElement>(null);
   const [suggestion, setSuggestion] = useState<string>("");
+  const router = useRouter();
+
+  const handleLogout = () => {
+    router.push("/");
+  };
+
+  const getUserFunc = async () => {
+    getUser();
+  };
+
+  const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setIsOpenMenu(e.currentTarget);
+  };
 
   useEffect(() => {
     if (board.columns.size === 0) return;
-    setLoading(true);
+    setLoading(false);
 
     const fetchSuggestionFunc = async () => {
       const suggestion = await fetchSuggestion(board);
@@ -27,6 +45,7 @@ function Header() {
       setLoading(false);
     };
 
+    getUserFunc();
     fetchSuggestionFunc();
   }, [board]);
 
@@ -73,7 +92,31 @@ function Header() {
             </button>
           </form>
 
-          <Avatar name="Ryosuke saito" round size="50" />
+          {/* profile dropdown */}
+          <div>
+            <button onClick={handleOpenUserMenu}>
+              <Avatar
+                name={user ? `${user.name}` : "unknown"}
+                round
+                size="50"
+              />
+            </button>
+
+            <div
+              className={`absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none   ${
+                !isOpenMenu && "hidden"
+              }`}
+            >
+              <button
+                className={
+                  "w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                }
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
