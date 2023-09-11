@@ -7,6 +7,7 @@ import { useBoardStore } from "@/store/BoardStore";
 import TaskTypeRadioGroup from "./TaskTypeRadioGroup";
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+import { useUserStore } from "@/store/AuthStore";
 
 function Modal() {
   const imagePickerRef = useRef<HTMLInputElement>(null);
@@ -20,6 +21,8 @@ function Modal() {
       state.newTaskType,
     ]);
 
+  const [user] = useUserStore((state) => [state.user]);
+
   const [isOpen, closeModal] = useModalStore((state) => [
     state.isOpen,
     state.closeModal,
@@ -28,8 +31,10 @@ function Modal() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newTaskInput) return;
+    const username = user.name;
+    console.log(username);
 
-    addTask(newTaskInput, newTaskType, image);
+    addTask(newTaskInput, newTaskType, username, image);
     setImage(null);
     closeModal();
   };
@@ -129,7 +134,7 @@ function Modal() {
                     disabled={!newTaskInput}
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed"
                   >
-                    Add Task
+                    Add a Task
                   </button>
                 </div>
               </Dialog.Panel>
