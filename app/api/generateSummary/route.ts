@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   // todos in the body of the POST request
-  const { todos } = await request.json();
+  const todos = await request.json();
 
   // communicate with openAI GPT
   const response = await openai.createChatCompletion({
@@ -14,8 +14,7 @@ export async function POST(request: Request) {
     messages: [
       {
         role: "system",
-        content:
-          "When responding, welcome the user always as Mr.Sonny and say welcome to the System Todo App. Limit the response to 200 characters",
+        content: `When responding, say welcome to the System Todo App. Limit the response to 200 characters`,
       },
       {
         role: "user",
