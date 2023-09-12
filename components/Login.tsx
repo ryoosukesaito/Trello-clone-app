@@ -55,11 +55,6 @@ function Login() {
             />
           </label>
 
-          <div className="mb-8 text-right underline underline-offset-auto">
-            <button className="underline hover:opacity-50">
-              Forgot password?
-            </button>
-          </div>
           <div className="text-center">
             <button
               className="rounded px-8 py-2 mb-12 cursor-pointer bg-[#0055D1] hover:bg-gray-scale-3 text-white hover:text-main-color-1"
