@@ -37,10 +37,10 @@ function Header() {
 
   useEffect(() => {
     if (board.columns.size === 0) return;
-    setLoading(false);
+    setLoading(true);
 
     const fetchSuggestionFunc = async () => {
-      const suggestion = await fetchSuggestion(board);
+      const suggestion = await fetchSuggestion(board, user);
       setSuggestion(suggestion);
       setLoading(false);
     };
